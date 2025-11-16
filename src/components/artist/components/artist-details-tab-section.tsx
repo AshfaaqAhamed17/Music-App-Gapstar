@@ -1,9 +1,8 @@
-import AllAlbum from "../../../components/album/components/all-album";
-import PopularAlbum from "../../../components/album/components/popular-album";
+import AlbumListingComponent from "../../common/album-listing";
 import { Tabs } from "@chakra-ui/react";
-import ArtistDetailsSongs from "./artist-details-popular-songs";
+import SongsListingComponent from "../../common/songs-listing";
 
-export default function ArtistDetailsOther() {
+export default function ArtistDetailsTabSection() {
   return (
     <Tabs.Root
       w="full"
@@ -41,15 +40,15 @@ export default function ArtistDetailsOther() {
         <Tabs.Indicator />
       </Tabs.List>
       <Tabs.Content value="popularAlbums">
-        <PopularAlbum />
+        <AlbumListingComponent count={5} />
       </Tabs.Content>
 
       <Tabs.Content value="allAlbums">
-        <AllAlbum />
+        <AlbumListingComponent count={35} />
       </Tabs.Content>
 
       <Tabs.Content value="allSongs">
-        <ArtistDetailsSongs />
+        <SongsListingComponent count={10} />
       </Tabs.Content>
     </Tabs.Root>
   );

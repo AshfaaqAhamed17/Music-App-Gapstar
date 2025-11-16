@@ -1,4 +1,5 @@
 import { Avatar, VStack, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 export interface AlbumTileProps {
   imageUrl: string;
@@ -11,8 +12,17 @@ export default function AlbumTile({
   albumName,
   artistName,
 }: AlbumTileProps) {
+  const navigate = useNavigate();
+
   return (
-    <VStack align="center" gap={4}>
+    <VStack
+      align="center"
+      gap={4}
+      cursor="pointer"
+      onClick={() => {
+        navigate(`/album/${encodeURIComponent(artistName)}`);
+      }}
+    >
       <Avatar.Root
         shape="rounded"
         boxSize="full"

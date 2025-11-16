@@ -5,11 +5,14 @@ import Layout from "../components/root-layout.tsx";
 
 // Lazy load pages
 const Home = lazy(() => import("../pages/home.tsx"));
+
 const AllArtists = lazy(() => import("../pages/artist/page.tsx"));
 const ArtistDetail = lazy(() => import("../pages/artist/[id]/page.tsx"));
 
-const AllAlbums = lazy(() => import("../pages/album.tsx"));
-const Favourites = lazy(() => import("../pages/favourites.tsx"));
+const AllAlbums = lazy(() => import("../pages/album/page.tsx"));
+const AlbumDetail = lazy(() => import("../pages/album/[id]/page.tsx"));
+
+const Favourites = lazy(() => import("../pages/favourites/page.tsx"));
 
 function LoadingFallback() {
   return (
@@ -52,7 +55,7 @@ const router = createBrowserRouter([
       },
       {
         path: "album/:name",
-        element: <AllAlbums />,
+        element: <AlbumDetail />,
       },
       {
         path: "favourites",
