@@ -86,7 +86,7 @@ export default function Layout({
 
       {/* Main Content */}
       <Box w="full" px={{ base: 4, md: 6 }} py={4} pb={{ base: 20, md: 4 }}>
-        <Box mb={6}>
+        <Box mb={10}>
           <Flex w="full" align="center">
             {/* Back button */}
             <Button

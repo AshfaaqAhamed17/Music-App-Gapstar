@@ -22,7 +22,7 @@ export const system = createSystem(defaultConfig, {
           100: { value: "#f1f2f3" },
           200: { value: "#e1e3e5" },
           300: { value: "#c9ccd0" },
-          400: { value: "#9da2a9" },
+          400: { value: "#9C9C9C" },
           500: { value: "#6f757c" },
           600: { value: "#403F3F" },
           700: { value: "#3E3E3E" },
