@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Box, Flex, VStack, Text, Input, Button } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import {
   Home as HomeIcon,
@@ -24,12 +24,41 @@ export default function Layout({
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
 
+  // Debounce settings
+  const DEBOUNCE_MS = 500;
+  const MIN_QUERY_LENGTH = 2;
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Debounced navigation on query change (search executes on change after debounce)
+  useEffect(() => {
+    // clear any existing timer
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+      debounceRef.current = null;
+    }
+
+    const q = (query || "").trim();
+    if (!q || q.length < MIN_QUERY_LENGTH) {
+      // do not navigate/search for very short queries
+      return;
+    }
+
+    debounceRef.current = setTimeout(() => {
+      navigate(`/search?q=${encodeURIComponent(q)}`);
+    }, DEBOUNCE_MS);
+
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+        debounceRef.current = null;
+      }
+    };
+  }, [query, navigate]);
+
   function doSearch() {
     const q = (query || "").trim();
     if (!q) return;
-    navigate(
-      `/search?q=${encodeURIComponent(q)}&type=${encodeURIComponent("scope")}`
-    );
+    navigate(`/search?q=${encodeURIComponent(q)}}`);
   }
 
   return (
@@ -117,9 +146,10 @@ export default function Layout({
                   borderColor: "primary",
                 }}
                 borderRadius="full"
-                placeholder={`Search ${"scope"}...`}
+                placeholder={`Search ...`}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
+                // keep Enter behavior for keyboard users (optional)
                 onKeyDown={(e) => {
                   if (e.key === "Enter") doSearch();
                 }}
