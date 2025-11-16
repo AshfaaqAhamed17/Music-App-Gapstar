@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Heading, Text, VStack, Spinner } from "@chakra-ui/react";
+import { Box, Text, VStack, Spinner } from "@chakra-ui/react";
 import { useSearchParams } from "react-router-dom";
 import ArtistListingComponent from "../components/common/artist-listing";
 import AlbumListingComponent from "../components/common/album-listing";
@@ -16,12 +16,6 @@ const MOCK_SONGS = [
   { id: "s7", title: "Yesterday", artist: "The Bet" },
 ];
 
-const MOCK_ALBUMS = [
-  { id: "a1", title: "Divide", artist: "Ed Sheeran" },
-  { id: "a2", title: "After Hours", artist: "The Weeknd" },
-  { id: "a3", title: "Future Nostalgia", artist: "Dua Lipa" },
-];
-
 const MOCK_ARTISTS = [
   { id: "ar1", name: "Ed Sheeran" },
   { id: "ar2", name: "The Weeknd" },
@@ -31,6 +25,11 @@ const MOCK_ARTISTS = [
   { id: "ar6", name: "The End" },
 ];
 
+const MOCK_ALBUMS = [
+  { id: "a1", title: "Divide", artist: "Ed Sheeran" },
+  { id: "a2", title: "After Hours", artist: "The Weeknd" },
+  { id: "a3", title: "Future Nostalgia", artist: "Dua Lipa" },
+];
 export default function SearchPage() {
   const [searchParams] = useSearchParams();
   const q = (searchParams.get("q") || "").trim();
@@ -82,54 +81,50 @@ export default function SearchPage() {
   return (
     <Box>
       <VStack align="stretch" gap={10}>
-        <Text color="muted.700">
-          {q ? `Results for "${q}"` : "Type at least 2 characters to search"}
-        </Text>
-
         {displayLoading ? (
           <Box py={6} textAlign="center">
             <Spinner />
           </Box>
         ) : (
           <VStack align="stretch" gap={10}>
-            <Box>
-              <Heading size="sm" mb={2}>
+            <VStack align="stretch" gap={6}>
+              <Text fontWeight="bold" fontSize="2xl" textAlign="start">
                 Songs
-              </Heading>
-              <Box gap={2}>
+              </Text>
+              <Box>
                 {displaySongs.length ? (
                   <SongsListingForSearchComponent count={displaySongs.length} />
                 ) : (
                   <Text color="muted.700">No songs found</Text>
                 )}
               </Box>
-            </Box>
+            </VStack>
 
-            <Box>
-              <Heading size="sm" mb={2}>
-                Albums
-              </Heading>
-              <Box gap={2}>
-                {displayAlbums.length ? (
-                  <ArtistListingComponent count={displayAlbums.length} />
-                ) : (
-                  <Text color="muted.700">No albums found</Text>
-                )}
-              </Box>
-            </Box>
-
-            <Box>
-              <Heading size="sm" mb={2}>
+            <VStack align="stretch" gap={6}>
+              <Text fontWeight="bold" fontSize="2xl" textAlign="start">
                 Artists
-              </Heading>
+              </Text>
               <Box>
                 {displayArtists.length ? (
-                  <AlbumListingComponent count={displayArtists.length} />
+                  <ArtistListingComponent count={displayArtists.length} />
                 ) : (
                   <Text color="muted.700">No artists found</Text>
                 )}
               </Box>
-            </Box>
+            </VStack>
+
+            <VStack align="stretch" gap={6}>
+              <Text fontWeight="bold" fontSize="2xl" textAlign="start">
+                Albums
+              </Text>
+              <Box>
+                {displayAlbums.length ? (
+                  <AlbumListingComponent count={displayAlbums.length} />
+                ) : (
+                  <Text color="muted.700">No albums found</Text>
+                )}
+              </Box>
+            </VStack>
           </VStack>
         )}
       </VStack>

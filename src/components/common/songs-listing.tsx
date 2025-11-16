@@ -30,9 +30,17 @@ export default function SongsListingComponent({ count }: SongsListingProps) {
   const songs = DUMMY_SONGS(count);
 
   return (
-    <VStack gap={4} w="full" align="stretch">
-      {songs.map((s) => (
-        <HStack key={s.id} align="center" gap={4} w="full">
+    <VStack gap={3} w="full" align="stretch">
+      {songs.map((s, idx) => (
+        <HStack
+          key={s.id}
+          align="center"
+          gap={4}
+          w="full"
+          borderTop={idx === 0 ? "none" : "1px solid"}
+          borderColor="border.default"
+          pt={3}
+        >
           <HStack align="center" gap={4} flex="1" minW={0}>
             <Avatar.Root
               shape="rounded"
@@ -59,7 +67,7 @@ export default function SongsListingComponent({ count }: SongsListingProps) {
             </VStack>
           </HStack>
 
-          <Box minW="300px">
+          <Box minW="300px" display={{ base: "none", md: "block" }}>
             <Text fontSize="sm" textAlign="end" color="muted">
               {s.plays} plays
             </Text>

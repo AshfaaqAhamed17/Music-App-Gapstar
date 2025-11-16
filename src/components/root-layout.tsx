@@ -1,21 +1,32 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Box, Flex, VStack, Text, Input, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  VStack,
+  Text,
+  Input,
+  Button,
+  InputGroup,
+  Popover,
+  Portal,
+  Avatar,
+} from "@chakra-ui/react";
 import React, { useState, useEffect, useRef } from "react";
 
 import {
   Home as HomeIcon,
-  User as UserIcon,
   MicVocal as MicVocalIcon,
   Star as StarIcon,
   GalleryHorizontalEnd as GalleryHorizontalEndIcon,
   ChevronLeft,
+  Search,
 } from "lucide-react";
 
 const routes = [
   { label: "Home", to: "/", icon: HomeIcon },
   { label: "Favourites", to: "/favourites", icon: StarIcon },
-  { label: "Album", to: "/album", icon: GalleryHorizontalEndIcon },
-  { label: "Artist", to: "/artist", icon: MicVocalIcon },
+  { label: "Albums", to: "/album", icon: GalleryHorizontalEndIcon },
+  { label: "Artists", to: "/artist", icon: MicVocalIcon },
 ];
 
 export default function Layout({
@@ -82,6 +93,7 @@ export default function Layout({
         borderColor="border.default"
         position="sticky"
         top={4}
+        zIndex={1}
       >
         <VStack align="stretch">
           {routes.map((r) => {
@@ -124,51 +136,97 @@ export default function Layout({
             <Button
               aria-label="Back"
               onClick={() => navigate(-1)}
-              mr={3}
               border="1px solid"
               borderColor="border.default"
               borderRadius="full"
               backgroundColor="bg.subtle"
               variant="ghost"
+              zIndex={10}
+              p={0}
+              boxSize="48px"
             >
-              <ChevronLeft size={18} />
+              <ChevronLeft size={24} />
             </Button>
 
             {/* Centered search */}
-            <Box flex="1" display="flex" justifyContent="center">
-              <Input
-                maxW={{ base: "full", md: "500px" }}
-                border="1px solid"
-                borderColor="border.default"
-                backgroundColor="bg.subtle"
-                _focus={{
-                  border: "2px solid",
-                  borderColor: "primary",
-                }}
-                borderRadius="full"
-                placeholder={`Search ...`}
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                // keep Enter behavior for keyboard users (optional)
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") doSearch();
-                }}
-              />
+            <Box flex="1" display="flex" justifyContent="center" zIndex={10}>
+              <Box w-="full">
+                <InputGroup
+                  startElement={<Search />}
+                  w={{ base: "full", md: "500px" }}
+                  h="48px"
+                >
+                  <Input
+                    border="1px solid"
+                    borderColor="border.default"
+                    backgroundColor="bg.subtle"
+                    _focus={{
+                      border: "2px solid",
+                      borderColor: "primary",
+                    }}
+                    borderRadius="full"
+                    placeholder={`Search for a song, album or artist`}
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") doSearch();
+                    }}
+                    h="48px"
+                  />
+                </InputGroup>
+              </Box>
             </Box>
 
             {/* Profile button */}
-            <Button
-              aria-label="Profile"
-              border="1px solid"
-              backgroundColor="bg.subtle"
-              borderColor="border.default"
-              onClick={() => navigate("/profile")}
-              borderRadius="full"
-              ml={3}
-              variant="ghost"
-            >
-              <UserIcon size={18} />
-            </Button>
+            <Popover.Root>
+              <Popover.Trigger asChild>
+                <Button
+                  aria-label="Profile"
+                  border="1px solid"
+                  backgroundColor="bg.subtle"
+                  borderColor="border.default"
+                  borderRadius="full"
+                  variant="ghost"
+                  zIndex={10}
+                  p={0}
+                  boxSize="48px"
+                >
+                  <Avatar.Root shape="full" boxSize="40px">
+                    <Avatar.Fallback name="Random User" />
+                    <Avatar.Image src="https://picsum.photos/seed/artist1/300/300" />
+                  </Avatar.Root>
+                </Button>
+              </Popover.Trigger>
+              <Portal>
+                <Popover.Positioner>
+                  <Popover.Content>
+                    <Popover.Arrow />
+                    <Popover.Body>
+                      <VStack
+                        alignItems="center"
+                        gap={6}
+                        p={6}
+                        bg="bg.surface"
+                        borderRadius="lg"
+                      >
+                        <Avatar.Root shape="full" boxSize="60px">
+                          <Avatar.Fallback name="Random User" />
+                          <Avatar.Image src="https://picsum.photos/seed/artist1/300/300" />
+                        </Avatar.Root>
+                        <VStack align="center" gap={2}>
+                          <Text fontWeight="semibold" fontSize="md">
+                            Ashfaaq Ahamed
+                          </Text>
+                          <Text color="muted" fontSize="sm">
+                            ashfaaqahamed17@gmail.com
+                          </Text>
+                        </VStack>
+                      </VStack>
+                    </Popover.Body>
+                  </Popover.Content>
+                </Popover.Positioner>
+              </Portal>
+            </Popover.Root>
           </Flex>
         </Box>
 
@@ -184,35 +242,41 @@ export default function Layout({
         right={0}
         zIndex="overlay"
         bg="bg.subtle"
-        borderTopWidth="1px"
+        borderRadius="full"
+        border="1px solid"
         borderColor="border.default"
         py={2}
         px={2}
-        justifyContent="space-around"
+        m={4}
         alignItems="center"
         height="64px"
       >
         {routes.map((r) => {
           const Icon = r.icon;
           return (
-            <NavLink key={r.to} to={r.to} end>
-              {({ isActive }) => (
-                <VStack
-                  as="div"
-                  gap={0}
-                  align="center"
-                  justify="center"
-                  cursor="pointer"
-                  color={isActive ? "primary" : "text"}
-                  _hover={{ color: isActive ? "primary" : "muted.700" }}
-                >
-                  {Icon && <Icon size={18} />}
-                  <Text fontSize="xs" mt="1">
-                    {r.label}
-                  </Text>
-                </VStack>
-              )}
-            </NavLink>
+            <Box w="full">
+              <NavLink key={r.to} to={r.to} end>
+                {({ isActive }) => (
+                  <VStack
+                    as="div"
+                    gap={0}
+                    alignItems="center"
+                    justifyContent="center"
+                    cursor="pointer"
+                    fontWeight={isActive ? "semibold" : "normal"}
+                    color={isActive ? "primary" : "text"}
+                    bg={isActive ? "bg.selected" : "transparent"}
+                    borderRadius="full"
+                    py={2}
+                  >
+                    {Icon && <Icon size={18} />}
+                    <Text fontSize="xs" mt="1">
+                      {r.label}
+                    </Text>
+                  </VStack>
+                )}
+              </NavLink>
+            </Box>
           );
         })}
       </Box>

@@ -1,4 +1,4 @@
-import { Avatar, Button, HStack, Text, VStack } from "@chakra-ui/react";
+import { Avatar, Button, HStack, Stack, Text, VStack } from "@chakra-ui/react";
 import { Play } from "lucide-react";
 
 export default function DetailsHeader({
@@ -11,18 +11,24 @@ export default function DetailsHeader({
     : ["Artist Name", "05 tracks", "120 mins", "Released 2023"];
 
   return (
-    <HStack align="center" gap={4}>
+    // <HStack align="center" gap={4}>
+    <Stack
+      direction={{ base: "column", md: "row" }} // mobile → column, desktop → row
+      align={{ base: "start", md: "center" }}
+      gap={4}
+      w="full"
+    >
       <Avatar.Root
         shape="rounded"
         size="lg"
-        boxSize="180px"
+        boxSize={{ base: "100px", md: "180px" }}
         borderRadius="full"
       >
         <Avatar.Fallback name="Random User" />
         <Avatar.Image src="https://picsum.photos/seed/artist1/300/300" />
       </Avatar.Root>
 
-      <VStack w="full" gap={1} align="start" px={2}>
+      <VStack w="full" gap={1} align="start" px={{ base: 0, md: 2 }}>
         <Text fontWeight="bold" fontSize="4xl">
           {isFavourites ? "My Favourites" : "Album Name"}
         </Text>
@@ -48,6 +54,6 @@ export default function DetailsHeader({
           Play
         </Button>
       </VStack>
-    </HStack>
+    </Stack>
   );
 }
