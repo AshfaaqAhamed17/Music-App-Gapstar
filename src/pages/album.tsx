@@ -5,8 +5,8 @@ import AllAlbum from "../components/album/components/all-album";
 export default function Album() {
   return (
     <VStack gap={12}>
-      <PopularAlbum />
-      <AllAlbum />
+      <PopularAlbum page="album" />
+      <AllAlbum page="album" />
     </VStack>
   );
 }

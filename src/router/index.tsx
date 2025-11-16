@@ -5,7 +5,9 @@ import Layout from "../components/root-layout.tsx";
 
 // Lazy load pages
 const Home = lazy(() => import("../pages/home.tsx"));
-const AllArtists = lazy(() => import("../pages/artist.tsx"));
+const AllArtists = lazy(() => import("../pages/artist/page.tsx"));
+const ArtistDetail = lazy(() => import("../pages/artist/[id]/page.tsx"));
+
 const AllAlbums = lazy(() => import("../pages/album.tsx"));
 const Favourites = lazy(() => import("../pages/favourites.tsx"));
 
@@ -41,7 +43,15 @@ const router = createBrowserRouter([
         element: <AllArtists />,
       },
       {
+        path: "artist/:name",
+        element: <ArtistDetail />,
+      },
+      {
         path: "album",
+        element: <AllAlbums />,
+      },
+      {
+        path: "album/:name",
         element: <AllAlbums />,
       },
       {
