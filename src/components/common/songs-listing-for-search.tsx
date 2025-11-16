@@ -1,9 +1,9 @@
 import {
   Avatar,
-  Box,
   Button,
   Flex,
   HStack,
+  SimpleGrid,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -21,18 +21,31 @@ const DUMMY_SONGS = (count: number) =>
     };
   });
 
-interface SongsListingProps {
+interface SongsListingForSearchProps {
   count: number;
-  isSearch?: boolean;
 }
 
-export default function SongsListingComponent({ count }: SongsListingProps) {
+export default function SongsListingForSearchComponent({
+  count,
+}: SongsListingForSearchProps) {
   const songs = DUMMY_SONGS(count);
 
   return (
-    <VStack gap={4} w="full" align="stretch">
+    <SimpleGrid
+      columns={{ base: 1, md: 2, lg: 3 }}
+      gapX={10}
+      // px={{ base: 6, xl: 2 }}
+    >
       {songs.map((s) => (
-        <HStack key={s.id} align="center" gap={4} w="full">
+        <HStack
+          key={s.id}
+          align="center"
+          gap={4}
+          w="full"
+          borderTop="1px solid"
+          borderColor="border.default"
+          py={4}
+        >
           <HStack align="center" gap={4} flex="1" minW={0}>
             <Avatar.Root
               shape="rounded"
@@ -59,12 +72,6 @@ export default function SongsListingComponent({ count }: SongsListingProps) {
             </VStack>
           </HStack>
 
-          <Box minW="300px">
-            <Text fontSize="sm" textAlign="end" color="muted">
-              {s.plays} plays
-            </Text>
-          </Box>
-
           <Flex gap={1} minW="300px" justify="end">
             <Button
               variant="ghost"
@@ -84,6 +91,6 @@ export default function SongsListingComponent({ count }: SongsListingProps) {
           </Flex>
         </HStack>
       ))}
-    </VStack>
+    </SimpleGrid>
   );
 }

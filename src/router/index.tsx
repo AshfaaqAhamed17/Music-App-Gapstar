@@ -13,6 +13,7 @@ const AllAlbums = lazy(() => import("../pages/album/page.tsx"));
 const AlbumDetail = lazy(() => import("../pages/album/[id]/page.tsx"));
 
 const Favourites = lazy(() => import("../pages/favourites/page.tsx"));
+const SearchPage = lazy(() => import("../pages/search.tsx"));
 
 function LoadingFallback() {
   return (
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
       {
         path: "favourites",
         element: <Favourites />,
+      },
+      {
+        path: "search",
+        element: <SearchPage />,
       },
     ],
   },
