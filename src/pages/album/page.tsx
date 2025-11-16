@@ -1,21 +1,20 @@
-import ArtistListingComponent from "../../components/common/artist-listing";
+import AlbumListingComponent from "../../components/common/album-listing";
 import { Box, Heading, VStack } from "@chakra-ui/react";
 
-export default function Artist() {
+export default function Album() {
   return (
     <VStack gap={12}>
       <Box py={2} w="full">
         <Heading size="xl" mb={8}>
-          All artists
+          Most popular
         </Heading>
-        <ArtistListingComponent count={5} />
+        <AlbumListingComponent count={5} />
       </Box>
-
       <Box py={2} w="full">
         <Heading size="xl" mb={8}>
-          All artists
+          Recently Added
         </Heading>
-        <ArtistListingComponent count={35} />
+        <AlbumListingComponent count={25} />
       </Box>
     </VStack>
   );

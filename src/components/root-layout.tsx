@@ -41,6 +41,7 @@ export default function Layout({
     >
       {/* Sidebar */}
       <Box
+        h="96vh"
         as="nav"
         m="4"
         w={{ base: "full", md: "52" }}
@@ -50,6 +51,8 @@ export default function Layout({
         borderRadius="4xl"
         border="1px solid"
         borderColor="border.default"
+        position="sticky"
+        top={4}
       >
         <VStack align="stretch">
           {routes.map((r) => {
