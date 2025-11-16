@@ -69,6 +69,10 @@ export const system = createSystem(defaultConfig, {
           value: { base: "{colors.ink.800}", _dark: "{colors.ink.50}" },
         },
 
+        "text.overlay": {
+          value: { base: "{colors.ink.50}", _dark: "{colors.ink.800}" },
+        },
+
         primary: {
           value: { base: "{colors.brand.500}", _dark: "{colors.brand.500}" },
         },

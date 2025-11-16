@@ -10,30 +10,42 @@ export default function ArtistDetailsTabSection() {
       variant="subtle"
       css={{
         "--tabs-bg": "bg.subtle",
-        "--tabs-indicator-bg": "colors.gray.subtle",
+        "--tabs-indicator-bg": "colors.text",
         "--tabs-indicator-shadow": "shadows.xs",
         "--tabs-trigger-radius": "radii.full",
       }}
     >
-      <Tabs.List gap={2}>
+      <Tabs.List gap={2} mb={3}>
         <Tabs.Trigger
           value="popularAlbums"
           bg="bg.subtle"
-          _selected={{ bg: "transparent" }}
+          _selected={{
+            bg: "transparent",
+            color: "text.overlay",
+            fontWeight: "bold",
+          }}
         >
           Popular Albums
         </Tabs.Trigger>
         <Tabs.Trigger
           value="allAlbums"
           bg="bg.subtle"
-          _selected={{ bg: "transparent" }}
+          _selected={{
+            bg: "transparent",
+            color: "text.overlay",
+            fontWeight: "bold",
+          }}
         >
           All Albums
         </Tabs.Trigger>
         <Tabs.Trigger
           value="allSongs"
           bg="bg.subtle"
-          _selected={{ bg: "transparent" }}
+          _selected={{
+            bg: "transparent",
+            color: "text.overlay",
+            fontWeight: "bold",
+          }}
         >
           All Songs
         </Tabs.Trigger>
