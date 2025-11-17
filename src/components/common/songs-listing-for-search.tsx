@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { MoreHorizontal, Star } from "lucide-react";
 import { useFavoritesStore } from "@/store/favorites-store";
-import { toaster } from "../../components/ui/toaster";
+import { toaster } from "../../lib/toaster";
 import { splitArtists } from "@/utils/text-formatter";
 import { useNavigate } from "react-router-dom";
 
@@ -39,7 +39,6 @@ export default function SongsListingForSearchComponent({
       removeFavorite(track.name, track.artist);
       toaster.create({
         title: "Removed from favorites",
-        description: `${track.name} by ${track.artist}`,
         type: "info",
       });
     } else {
@@ -64,7 +63,6 @@ export default function SongsListingForSearchComponent({
       });
       toaster.create({
         title: "Added to favorites",
-        description: `${track.name} by ${track.artist}`,
         type: "success",
       });
     }

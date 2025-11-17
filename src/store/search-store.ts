@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { searchService } from "../services/searchService";
+import { searchService } from "../services/search-service";
 import type { Artist } from "@/types/artist";
 import type { AlbumResponse } from "@/types/album";
 

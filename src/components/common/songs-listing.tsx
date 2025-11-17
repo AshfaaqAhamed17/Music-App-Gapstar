@@ -17,7 +17,7 @@ import {
   formatNumber,
   splitArtists,
 } from "@/utils/text-formatter";
-import { toaster } from "../../components/ui/toaster";
+import { toaster } from "../../lib/toaster";
 import { useState, useMemo } from "react";
 
 interface SongsListingComponentProps {
@@ -68,7 +68,7 @@ export default function SongsListingComponent({
       });
       toaster.create({
         title: "Added to favorites",
-        type: "info",
+        type: "success",
       });
     }
   };

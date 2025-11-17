@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import ArtistListingComponent from "../components/common/artist-listing";
 import AlbumListingComponent from "../components/common/album-listing";
 import SongsListingForSearchComponent from "../components/common/songs-listing-for-search";
-import { useSearchStore } from "../store/searchStore";
+import { useSearchStore } from "../store/search-store";
 import Loader from "@/components/common/loader";
 
 export default function SearchPage() {
