@@ -1,13 +1,29 @@
-import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
+import { render } from "@testing-library/react";
+import { Provider } from "@/components/ui/provider";
+import App from "./app";
+import { vi } from "vitest";
 
-describe('App', () => {
-  it('renders without crashing', () => {
+// Mock matchMedia
+Object.defineProperty(window, "matchMedia", {
+  writable: true,
+  value: vi.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  })),
+});
+
+describe("App", () => {
+  it("renders without crashing", () => {
     render(
-      <BrowserRouter>
+      <Provider>
         <App />
-      </BrowserRouter>
+      </Provider>
     );
   });
 });

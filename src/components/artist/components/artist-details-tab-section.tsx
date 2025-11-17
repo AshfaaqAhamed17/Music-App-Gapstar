@@ -1,7 +1,7 @@
 import AlbumListingComponent from "../../common/album-listing";
 import { Tabs } from "@chakra-ui/react";
 import Loader from "../../../components/common/loader";
-import { useArtistStore } from "@/store/artist-store";
+import { useArtistStore } from "../../../store/artist-store";
 import SongsListingComponent from "../../common/songs-listing";
 
 export default function ArtistDetailsTabSection() {

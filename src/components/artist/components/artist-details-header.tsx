@@ -1,5 +1,5 @@
-import type { Artist } from "@/types/artist-details";
-import { formatNumber } from "@/utils/text-formatter";
+import type { Artist } from "../../../types/artist-details";
+import { formatNumber } from "../../../utils/text-formatter";
 import { Avatar, Stack, Text, VStack } from "@chakra-ui/react";
 
 interface ArtistDetailsHeaderProps {
@@ -18,7 +18,10 @@ export default function ArtistDetailsHeader({
     >
       <Avatar.Root shape="full" size="lg" boxSize="120px" borderRadius="full">
         <Avatar.Fallback name={artistInfo.name} />
-        <Avatar.Image src={artistInfo.image?.[0]["#text"]} />
+        <Avatar.Image
+          src={artistInfo.image?.[0]["#text"] as string | undefined}
+          alt={artistInfo.name ?? "artist"}
+        />
       </Avatar.Root>
       <VStack w="full" gap={1} align="start" px={2}>
         <Text fontWeight="bold" fontSize="4xl" textAlign="start">
