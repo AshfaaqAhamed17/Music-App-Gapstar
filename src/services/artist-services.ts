@@ -40,7 +40,6 @@ export const artistServices = {
           ...api.defaults.params,
           method: "artist.gettoptracks",
           artist: name,
-          // limit,
         },
       });
       return data;

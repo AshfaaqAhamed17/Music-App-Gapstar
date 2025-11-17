@@ -83,17 +83,31 @@ export default function SongsListingComponent({
               </VStack>
             </HStack>
 
-            <Box minW="300px" display={{ base: "none", md: "block" }}>
-              <Text fontSize="sm" textAlign="end" color="muted">
-                {s.playcount
-                  ? `${s.playcount} plays`
-                  : s.duration
-                  ? `${s.duration} secs`
-                  : "----"}
-              </Text>
+            <Box minW="200px" display={{ base: "none", md: "block" }}>
+              {s.playcount ? (
+                <Text fontSize="sm" textAlign="end" color="muted">
+                  {s.playcount} plays
+                </Text>
+              ) : (
+                <Text fontSize="sm" textAlign="end" color="muted">
+                  ----
+                </Text>
+              )}
             </Box>
 
-            <Flex gap={1} minW="300px" justify="end">
+            <Box minW="200px" display={{ base: "none", md: "block" }}>
+              {s.duration ? (
+                <Text fontSize="sm" textAlign="end" color="muted">
+                  {s.duration} secs
+                </Text>
+              ) : (
+                <Text fontSize="sm" textAlign="end" color="muted">
+                  ----
+                </Text>
+              )}
+            </Box>
+
+            <Flex gap={1} minW="200px" justify="end">
               <Button
                 variant="ghost"
                 size="sm"

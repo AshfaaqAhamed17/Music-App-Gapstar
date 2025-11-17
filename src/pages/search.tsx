@@ -1,79 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Box, Text, VStack, Spinner } from "@chakra-ui/react";
 import { useSearchParams } from "react-router-dom";
 import ArtistListingComponent from "../components/common/artist-listing";
 import AlbumListingComponent from "../components/common/album-listing";
 import SongsListingForSearchComponent from "../components/common/songs-listing-for-search";
+import { useSearchStore } from "../store/searchStore";
 
-// Minimal mocked dataset for demonstration/search UI
-const MOCK_SONGS = [
-  { id: "s1", title: "Shape of You", artist: "Ed Sheeran" },
-  { id: "s2", title: "Blinding Lights", artist: "The Weeknd" },
-  { id: "s3", title: "Levitating", artist: "Dua Lipa" },
-  { id: "s4", title: "Yesterday", artist: "The Beatles" },
-  { id: "s5", title: "Yesterday", artist: "The Be" },
-  { id: "s6", title: "Yesterday", artist: "The atles" },
-  { id: "s7", title: "Yesterday", artist: "The Bet" },
-];
-
-const MOCK_ARTISTS = [
-  { id: "ar1", name: "Ed Sheeran" },
-  { id: "ar2", name: "The Weeknd" },
-  { id: "ar3", name: "Dua Lipa" },
-  { id: "ar4", name: "The Beatles" },
-  { id: "ar5", name: "The Week" },
-  { id: "ar6", name: "The End" },
-];
-
-const MOCK_ALBUMS = [
-  { id: "a1", title: "Divide", artist: "Ed Sheeran" },
-  { id: "a2", title: "After Hours", artist: "The Weeknd" },
-  { id: "a3", title: "Future Nostalgia", artist: "Dua Lipa" },
-];
 export default function SearchPage() {
   const [searchParams] = useSearchParams();
   const q = (searchParams.get("q") || "").trim();
-  const [loading, setLoading] = useState(false);
-  const [songs, setSongs] = useState<typeof MOCK_SONGS>([]);
-  const [albums, setAlbums] = useState<typeof MOCK_ALBUMS>([]);
-  const [artists, setArtists] = useState<typeof MOCK_ARTISTS>([]);
+
+  const { tracks, albums, artists, loading, performSearch } = useSearchStore();
 
   useEffect(() => {
-    // console.log(q);
-    // only perform the async (debounced) search when query is long enough
     if (!q || q.length < 2) {
-      // do not call setState synchronously here — rendering will derive empty results
       return;
     }
 
-    // setLoading(true);
-    const t = setTimeout(() => {
-      const qi = q.toLowerCase();
-      setSongs(
-        MOCK_SONGS.filter(
-          (s) =>
-            s.title.toLowerCase().includes(qi) ||
-            s.artist.toLowerCase().includes(qi)
-        )
-      );
-      setAlbums(
-        MOCK_ALBUMS.filter(
-          (a) =>
-            a.title.toLowerCase().includes(qi) ||
-            a.artist.toLowerCase().includes(qi)
-        )
-      );
-      setArtists(
-        MOCK_ARTISTS.filter((ar) => ar.name.toLowerCase().includes(qi))
-      );
-      setLoading(false);
-    }, 250);
+    const timer = setTimeout(() => {
+      performSearch(q);
+    }, 300);
 
-    return () => clearTimeout(t);
-  }, [q]);
+    return () => clearTimeout(timer);
+  }, [q, performSearch]);
 
-  // derive what to show without forcing state updates when q is short
-  const displaySongs = q && q.length >= 2 ? songs : [];
+  const displaySongs = q && q.length >= 2 ? tracks : [];
   const displayAlbums = q && q.length >= 2 ? albums : [];
   const displayArtists = q && q.length >= 2 ? artists : [];
   const displayLoading = q && q.length >= 2 ? loading : false;
@@ -93,7 +44,7 @@ export default function SearchPage() {
               </Text>
               <Box>
                 {displaySongs.length ? (
-                  <SongsListingForSearchComponent count={displaySongs.length} />
+                  <SongsListingForSearchComponent tracks={displaySongs} />
                 ) : (
                   <Text color="muted.700">No songs found</Text>
                 )}
@@ -106,7 +57,7 @@ export default function SearchPage() {
               </Text>
               <Box>
                 {displayArtists.length ? (
-                  <ArtistListingComponent count={displayArtists.length} />
+                  <ArtistListingComponent artists={displayArtists} />
                 ) : (
                   <Text color="muted.700">No artists found</Text>
                 )}
@@ -119,7 +70,7 @@ export default function SearchPage() {
               </Text>
               <Box>
                 {displayAlbums.length ? (
-                  <AlbumListingComponent count={displayAlbums.length} />
+                  <AlbumListingComponent albums={displayAlbums} />
                 ) : (
                   <Text color="muted.700">No albums found</Text>
                 )}

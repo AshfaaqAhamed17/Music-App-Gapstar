@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { artistServices } from "../service/artist-services";
+import { artistServices } from "../services/artist-services";
 import type { AlbumResponse } from "@/types/album";
 import type { ArtistResponse, TopTracksResponse } from "@/types/artist-details";
 
@@ -18,7 +18,6 @@ interface ArtistStore {
   allArtists: Artist[];
   isLoading: boolean;
 
-  // New artist detail states
   artistInfo: ArtistResponse["artist"];
   artistTopTracks: TopTracksResponse["toptracks"]["track"];
   artistTopAlbums: AlbumResponse[];
@@ -26,7 +25,6 @@ interface ArtistStore {
 
   fetchArtists: () => Promise<void>;
   fetchArtistDetails: (name: string) => Promise<void>;
-  // fetchArtistTopAlbums: (name: string) => Promise<void>;
 }
 
 export const useArtistStore = create<ArtistStore>((set) => ({
@@ -80,15 +78,4 @@ export const useArtistStore = create<ArtistStore>((set) => ({
       set({ isArtistLoading: false });
     }
   },
-
-  // fetchArtistTopAlbums: async (name: string) => {
-  //   set({ isArtistLoading: true });
-  //   try {
-  //     const albums = await artistServices.fetchArtistTopAlbums(name);
-  //     set({ artistTopAlbums: albums.topalbums.album, isArtistLoading: false });
-  //   } catch (error) {
-  //     console.error("Failed to fetch artist's top albums:", error);
-  //     set({ isArtistLoading: false });
-  //   }
-  // },
 }));

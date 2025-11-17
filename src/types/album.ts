@@ -50,7 +50,7 @@ export interface AlbumTrack {
     "#text": string;
   };
   image?: { "#text": string; size: string }[];
-  duration: number;
+  duration: string;
   url: string;
   name: string;
   "@attr": {

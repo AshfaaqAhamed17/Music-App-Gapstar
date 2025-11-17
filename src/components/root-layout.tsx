@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import {
   Box,
   Flex,
@@ -33,14 +33,19 @@ export default function Layout({
   children,
 }: React.PropsWithChildren<Record<string, unknown>>) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [query, setQuery] = useState("");
 
-  // Debounce settings
   const DEBOUNCE_MS = 500;
   const MIN_QUERY_LENGTH = 2;
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Debounced navigation on query change (search executes on change after debounce)
+  useEffect(() => {
+    if (!location.pathname.startsWith("/search")) {
+      Promise.resolve().then(() => setQuery(""));
+    }
+  }, [location.pathname]);
+
   useEffect(() => {
     // clear any existing timer
     if (debounceRef.current) {
@@ -50,7 +55,6 @@ export default function Layout({
 
     const q = (query || "").trim();
     if (!q || q.length < MIN_QUERY_LENGTH) {
-      // do not navigate/search for very short queries
       return;
     }
 
@@ -67,9 +71,9 @@ export default function Layout({
   }, [query, navigate]);
 
   function doSearch() {
-    const q = (query || "").trim();
-    if (!q) return;
-    navigate(`/search?q=${encodeURIComponent(q)}}`);
+    const searchTerm = (query || "").trim();
+    if (!searchTerm) return;
+    navigate(`/search?q=${encodeURIComponent(searchTerm)}}`);
   }
 
   return (
@@ -132,7 +136,6 @@ export default function Layout({
       <Box w="full" px={{ base: 4, md: 6 }} py={4} pb={{ base: 20, md: 4 }}>
         <Box mb={10}>
           <Flex w="full" align="center">
-            {/* Back button */}
             <Button
               aria-label="Back"
               onClick={() => navigate(-1)}
@@ -147,8 +150,6 @@ export default function Layout({
             >
               <ChevronLeft size={24} />
             </Button>
-
-            {/* Centered search */}
             <Box flex="1" display="flex" justifyContent="center" zIndex={10}>
               <Box w-="full">
                 <InputGroup
@@ -176,8 +177,6 @@ export default function Layout({
                 </InputGroup>
               </Box>
             </Box>
-
-            {/* Profile button */}
             <Popover.Root>
               <Popover.Trigger asChild>
                 <Button

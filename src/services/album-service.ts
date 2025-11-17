@@ -27,7 +27,6 @@ export const albumServices = {
           artist: name,
           tag: "rock",
           album,
-          // album: "City to City",
         },
       });
       return data;
@@ -39,7 +38,6 @@ export const albumServices = {
 
   async fetchAlbumsOfArtist(name: string, limit: number = 50) {
     try {
-      // https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=cher&api_key=d732731be2f5f0ec4b10e5a3607d7090&format=json
       const { data } = await api.get("", {
         params: {
           ...api.defaults.params,

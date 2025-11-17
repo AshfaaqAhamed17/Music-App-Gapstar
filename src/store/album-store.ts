@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { albumServices } from "@/service/album-service";
+import { albumServices } from "@/services/album-service";
 import type { AlbumResponse, AlbumDetailsResponse } from "@/types/album";
 
 interface AlbumStore {
