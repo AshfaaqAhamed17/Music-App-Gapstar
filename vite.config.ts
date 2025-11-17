@@ -4,6 +4,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "/",
   plugins: [react(), tsconfigPaths()],
   test: {
     environment: "jsdom",
@@ -12,5 +13,9 @@ export default defineConfig({
   },
   server: {
     allowedHosts: ["orthogonally-improper-sherman.ngrok-free.dev"],
+  },
+  build: {
+    assetsInlineLimit: 4096,
+    assetsDir: "assets",
   },
 });

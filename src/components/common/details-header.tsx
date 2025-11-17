@@ -22,7 +22,7 @@ export default function DetailsHeader({
       ];
 
   const selectCover = () => {
-    if (!selectedAlbum) return "src/assets/user.jpg";
+    if (!selectedAlbum) return "/user.jpg";
 
     if (!selectedAlbum?.image?.length) return undefined;
     const pref = ["extralarge", "mega", "large", "medium", "small"];

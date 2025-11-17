@@ -192,7 +192,7 @@ export default function Layout({
                 >
                   <Avatar.Root shape="full" boxSize="48px">
                     <Avatar.Fallback name="Ashfaaq Ahamed" />
-                    <Avatar.Image src="src/assets/user.jpg" />
+                    <Avatar.Image src="/user.jpg" />
                   </Avatar.Root>
                 </Button>
               </Popover.Trigger>
@@ -210,7 +210,7 @@ export default function Layout({
                       >
                         <Avatar.Root shape="full" boxSize="60px">
                           <Avatar.Fallback name="Ashfaaq Ahamed" />
-                          <Avatar.Image src="src/assets/user.jpg" />
+                          <Avatar.Image src="/user.jpg" />
                         </Avatar.Root>
                         <VStack align="center" gap={2}>
                           <Text fontWeight="semibold" fontSize="md">
