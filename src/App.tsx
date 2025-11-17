@@ -1,3 +1,4 @@
+/* eslint-disable check-file/filename-naming-convention */
 import { useEffect } from "react";
 import Router from "./router";
 

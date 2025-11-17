@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { system } from "./styles";
-import App from "./app";
+import App from "./App";
 import { ColorModeProvider } from "./components/ui/color-mode";
 import { Toaster } from "./components/ui/toaster";
 

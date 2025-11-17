@@ -1,6 +1,7 @@
+/* eslint-disable check-file/filename-naming-convention */
 import { render } from "@testing-library/react";
 import { Provider } from "@/components/ui/provider";
-import App from "./app";
+import App from "./App";
 import { vi } from "vitest";
 
 // Mock matchMedia
