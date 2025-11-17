@@ -3,7 +3,7 @@ import { albumServices } from "@/services/album-service";
 import type { AlbumResponse, AlbumDetailsResponse } from "@/types/album";
 
 interface AlbumStore {
-  mostPopular: AlbumResponse[];
+  mostPopularAlbum: AlbumResponse[];
   allAlbums: AlbumResponse[];
   isLoading: boolean;
   fetchAlbums: () => Promise<void>;
@@ -12,7 +12,7 @@ interface AlbumStore {
 }
 
 export const useAlbumStore = create<AlbumStore>((set) => ({
-  mostPopular: [],
+  mostPopularAlbum: [],
   allAlbums: [],
   isLoading: false,
   selectedAlbum: null,
@@ -29,8 +29,8 @@ export const useAlbumStore = create<AlbumStore>((set) => ({
       );
 
       set({
-        mostPopular: sorted.slice(0, 5),
-        allAlbums: sorted.slice(5),
+        mostPopularAlbum: sorted.slice(0, 6),
+        allAlbums: sorted.slice(6),
         isLoading: false,
       });
     } catch (error) {

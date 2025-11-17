@@ -1,6 +1,8 @@
 import type { AlbumDetailsResponse } from "@/types/album";
 import { Avatar, Button, HStack, Stack, Text, VStack } from "@chakra-ui/react";
 import { Play } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useFavoritesStore } from "@/store/favorites-store";
 
 export default function DetailsHeader({
   selectedAlbum,
@@ -9,13 +11,14 @@ export default function DetailsHeader({
   selectedAlbum?: AlbumDetailsResponse["album"] | null;
   isFavourites?: boolean;
 }) {
+  const navigate = useNavigate();
+  const { favorites } = useFavoritesStore();
+
   const metaItems = isFavourites
-    ? ["Created by me", "50 tracks", "200 mins", "Created on 2023"]
+    ? ["Created by me", `${favorites.length} tracks`]
     : [
-        selectedAlbum?.artist || "Artist Name",
+        selectedAlbum?.artist,
         `${selectedAlbum?.tracks?.track?.length || 0} tracks`,
-        "120 mins",
-        "Released 2023",
       ];
 
   const selectCover = () => {
@@ -58,7 +61,23 @@ export default function DetailsHeader({
         <HStack wrap="wrap" gap={2} align="center">
           {metaItems.map((item, i) => (
             <HStack key={i} gap={2} align="center">
-              <Text fontSize="sm" color="muted">
+              <Text
+                fontSize="sm"
+                color="muted"
+                cursor={i === 0 && !isFavourites ? "pointer" : "default"}
+                _hover={
+                  i === 0 && !isFavourites
+                    ? { textDecoration: "underline" }
+                    : {}
+                }
+                onClick={() => {
+                  if (i === 0 && !isFavourites && selectedAlbum?.artist) {
+                    navigate(
+                      `/artist/${encodeURIComponent(selectedAlbum.artist)}`
+                    );
+                  }
+                }}
+              >
                 {item}
               </Text>
               {i !== metaItems.length - 1 && (

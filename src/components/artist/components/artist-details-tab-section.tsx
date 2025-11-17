@@ -35,7 +35,7 @@ export default function ArtistDetailsTabSection() {
             fontWeight: "bold",
           }}
         >
-          Popular Albums
+          Popular albums
         </Tabs.Trigger>
         <Tabs.Trigger
           value="allAlbums"
@@ -46,7 +46,7 @@ export default function ArtistDetailsTabSection() {
             fontWeight: "bold",
           }}
         >
-          All Albums
+          All albums
         </Tabs.Trigger>
         <Tabs.Trigger
           value="allSongs"
@@ -57,7 +57,7 @@ export default function ArtistDetailsTabSection() {
             fontWeight: "bold",
           }}
         >
-          All Songs
+          All songs
         </Tabs.Trigger>
         <Tabs.Indicator />
       </Tabs.List>

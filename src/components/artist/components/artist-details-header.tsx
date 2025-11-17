@@ -1,4 +1,5 @@
 import type { Artist } from "@/types/artist-details";
+import { formatNumber } from "@/utils/text-formatter";
 import { Avatar, Stack, Text, VStack } from "@chakra-ui/react";
 
 interface ArtistDetailsHeaderProps {
@@ -24,7 +25,7 @@ export default function ArtistDetailsHeader({
           {artistInfo.name}
         </Text>
         <Text fontSize="sm" textAlign="start" color="muted">
-          {artistInfo.stats?.playcount} Plays
+          {formatNumber(artistInfo.stats?.playcount)} plays
         </Text>
       </VStack>
     </Stack>

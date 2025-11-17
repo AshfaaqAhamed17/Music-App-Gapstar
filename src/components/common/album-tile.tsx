@@ -17,13 +17,11 @@ export default function AlbumTile({
 
   const selectCover = (imageArr?: AlbumImage[]) => {
     if (!imageArr?.length) return undefined;
-    // prefer extralarge -> large -> medium -> small
     const pref = ["extralarge", "large", "medium", "small"];
     for (const size of pref) {
       const item = imageArr.find((i) => i.size === size && i["#text"]);
       if (item && item["#text"]) return item["#text"];
     }
-    // fallback to first non-empty
     return imageArr.find((i) => i["#text"])?.["#text"];
   };
 
@@ -45,7 +43,7 @@ export default function AlbumTile({
         boxSize="full"
         borderRadius="lg"
         objectFit="cover"
-        h="225px"
+        h="240px"
       >
         <Avatar.Fallback name="Random User" />
         <Avatar.Image src={selectCover(imageUrl)} />
@@ -54,7 +52,17 @@ export default function AlbumTile({
         <Text fontSize="md" textAlign="start">
           {albumName}
         </Text>
-        <Text fontSize="sm" textAlign="start" color="muted">
+        <Text
+          fontSize="sm"
+          textAlign="start"
+          color="muted"
+          cursor="pointer"
+          _hover={{ textDecoration: "underline" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/artist/${encodeURIComponent(artistName)}`);
+          }}
+        >
           {artistName}
         </Text>
       </VStack>

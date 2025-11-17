@@ -49,8 +49,8 @@ export const useArtistStore = create<ArtistStore>((set) => ({
       );
 
       set({
-        mostPopularArtists: sorted.slice(0, 5),
-        allArtists: sorted.slice(5),
+        mostPopularArtists: sorted.slice(0, 10),
+        allArtists: sorted.slice(10),
         isLoading: false,
       });
     } catch (error) {

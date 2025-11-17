@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { Box, Text, VStack, Spinner } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 import { useSearchParams } from "react-router-dom";
 import ArtistListingComponent from "../components/common/artist-listing";
 import AlbumListingComponent from "../components/common/album-listing";
 import SongsListingForSearchComponent from "../components/common/songs-listing-for-search";
 import { useSearchStore } from "../store/searchStore";
+import Loader from "@/components/common/loader";
 
 export default function SearchPage() {
   const [searchParams] = useSearchParams();
@@ -33,9 +34,7 @@ export default function SearchPage() {
     <Box>
       <VStack align="stretch" gap={10}>
         {displayLoading ? (
-          <Box py={6} textAlign="center">
-            <Spinner />
-          </Box>
+          <Loader />
         ) : (
           <VStack align="stretch" gap={10}>
             <VStack align="stretch" gap={6}>

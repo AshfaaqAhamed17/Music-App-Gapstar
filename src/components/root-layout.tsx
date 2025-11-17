@@ -191,7 +191,7 @@ export default function Layout({
                   boxSize="48px"
                 >
                   <Avatar.Root shape="full" boxSize="48px">
-                    <Avatar.Fallback name="Random User" />
+                    <Avatar.Fallback name="Ashfaaq Ahamed" />
                     <Avatar.Image src="src/assets/user.jpg" />
                   </Avatar.Root>
                 </Button>
@@ -245,7 +245,7 @@ export default function Layout({
         border="1px solid"
         borderColor="border.default"
         py={2}
-        px={2}
+        px={1}
         m={4}
         alignItems="center"
         height="64px"

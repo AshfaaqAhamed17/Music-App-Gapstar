@@ -1,6 +1,6 @@
 import { useArtistStore } from "@/store/artist-store";
 import ArtistListingComponent from "../../components/common/artist-listing";
-import { Box, Heading, VStack } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import Loader from "@/components/common/loader";
 
@@ -23,20 +23,24 @@ export default function Artist() {
   }
 
   return (
-    <VStack gap={12}>
-      <Box py={2} w="full">
-        <Heading size="xl" mb={8}>
+    <VStack gap={16} align="start">
+      <VStack w="full" gap={6} alignItems="start">
+        <Text fontWeight="bold" fontSize="2xl" textAlign="start">
           Most popular
-        </Heading>
-        <ArtistListingComponent artists={mostPopular} />
-      </Box>
+        </Text>
+        <Box py={2} w="full">
+          <ArtistListingComponent artists={mostPopular} />
+        </Box>
+      </VStack>
 
-      <Box py={2} w="full">
-        <Heading size="xl" mb={8}>
+      <VStack w="full" gap={6} alignItems="start">
+        <Text fontWeight="bold" fontSize="2xl" textAlign="start">
           All artists
-        </Heading>
-        <ArtistListingComponent artists={allArtists} />
-      </Box>
+        </Text>
+        <Box py={2} w="full">
+          <ArtistListingComponent artists={allArtists} />
+        </Box>
+      </VStack>
     </VStack>
   );
 }

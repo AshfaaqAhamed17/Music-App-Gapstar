@@ -7,9 +7,18 @@ import {
   HStack,
   Text,
   VStack,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { MoreHorizontal, Star } from "lucide-react";
 import { useFavoritesStore } from "@/store/favorites-store";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  formatDuration,
+  formatNumber,
+  splitArtists,
+} from "@/utils/text-formatter";
+import { toaster } from "../../components/ui/toaster";
+import { useState, useMemo } from "react";
 
 interface SongsListingComponentProps {
   tracks: TopTracksResponse["toptracks"]["track"];
@@ -19,10 +28,28 @@ export default function SongsListingComponent({
   tracks,
 }: SongsListingComponentProps) {
   const { addFavorite, removeFavorite, isFavorite } = useFavoritesStore();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [sortBy, setSortBy] = useState<"latest" | "name">("latest");
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
+  const showAvatar = !location.pathname.startsWith("/album");
+  const removeSorting = !location.pathname.startsWith("/artist");
+
+  const sortedTracks = useMemo(() => {
+    if (sortBy === "name") {
+      return [...tracks].sort((a, b) => a.name.localeCompare(b.name));
+    }
+    return tracks;
+  }, [tracks, sortBy]);
 
   const handleFavoriteClick = (track: (typeof tracks)[0]) => {
     if (isFavorite(track.name, track.artist.name)) {
       removeFavorite(track.name, track.artist.name);
+      toaster.create({
+        title: "Removed from favorites",
+        type: "info",
+      });
     } else {
       addFavorite({
         name: track.name,
@@ -39,12 +66,48 @@ export default function SongsListingComponent({
           rank: 0,
         },
       });
+      toaster.create({
+        title: "Added to favorites",
+        type: "info",
+      });
     }
   };
 
   return (
-    <VStack gap={3} w="full" align="stretch">
-      {tracks.map((s, idx) => {
+    <VStack gap={2} w="full" align="stretch">
+      {removeSorting && (
+        <HStack gap={2}>
+          <Button
+            aria-label="Latest"
+            onClick={() => setSortBy("latest")}
+            border="1px solid"
+            borderColor="border.default"
+            borderRadius="full"
+            backgroundColor={sortBy === "latest" ? "bg.subtle" : "bg.surface"}
+            variant="outline"
+            zIndex={10}
+            p={0}
+            width="100px"
+          >
+            Latest
+          </Button>
+          <Button
+            aria-label="Sort A-Z"
+            onClick={() => setSortBy("name")}
+            border="1px solid"
+            borderColor="border.default"
+            borderRadius="full"
+            backgroundColor={sortBy === "name" ? "bg.subtle" : "bg.surface"}
+            variant="outline"
+            zIndex={10}
+            p={0}
+            width="100px"
+          >
+            Sort A-Z
+          </Button>
+        </HStack>
+      )}
+      {sortedTracks.map((s, idx) => {
         const favorite = isFavorite(s.name, s.artist.name);
 
         return (
@@ -58,16 +121,17 @@ export default function SongsListingComponent({
             pt={3}
           >
             <HStack align="center" gap={4} flex="1" minW={0}>
-              <Avatar.Root
-                shape="rounded"
-                size="lg"
-                boxSize="44px"
-                borderRadius="full"
-              >
-                <Avatar.Fallback name={s.artist.name} />
-                <Avatar.Image src={s.image?.[2]?.["#text"]} />
-              </Avatar.Root>
-
+              {showAvatar && (
+                <Avatar.Root
+                  shape="rounded"
+                  size="lg"
+                  boxSize="44px"
+                  borderRadius="full"
+                >
+                  <Avatar.Fallback name={s.artist.name} />
+                  <Avatar.Image src={s.image?.[2]?.["#text"]} />
+                </Avatar.Root>
+              )}
               <VStack w="full" gap={1} align="start" px={2} minW={0}>
                 <Text
                   fontWeight="semibold"
@@ -75,34 +139,48 @@ export default function SongsListingComponent({
                   textAlign="start"
                   truncate
                 >
-                  {s.name}
+                  {isMobile && s.name.length > 20
+                    ? s.name.slice(0, 20) + "..."
+                    : s.name}
                 </Text>
-                <Text fontSize="sm" textAlign="start" color="muted" truncate>
-                  {s.artist.name}
-                </Text>
+
+                <HStack gap={1} overflow="hidden">
+                  {splitArtists(s.artist.name).map((artist, index) => (
+                    <Text
+                      key={index}
+                      fontSize="sm"
+                      textAlign="start"
+                      color="muted"
+                      cursor="pointer"
+                      _hover={{ textDecoration: "underline" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/artist/${encodeURIComponent(artist)}`);
+                      }}
+                      whiteSpace="nowrap"
+                    >
+                      {isMobile && artist.length > 5
+                        ? artist.slice(0, 5) + "..."
+                        : artist}
+                      {index < splitArtists(s.artist.name).length - 1 && ","}
+                    </Text>
+                  ))}
+                </HStack>
               </VStack>
             </HStack>
 
             <Box minW="200px" display={{ base: "none", md: "block" }}>
-              {s.playcount ? (
+              {s.playcount && (
                 <Text fontSize="sm" textAlign="end" color="muted">
-                  {s.playcount} plays
-                </Text>
-              ) : (
-                <Text fontSize="sm" textAlign="end" color="muted">
-                  ----
+                  {formatNumber(s.playcount)} plays
                 </Text>
               )}
             </Box>
 
             <Box minW="200px" display={{ base: "none", md: "block" }}>
-              {s.duration ? (
+              {s.duration && (
                 <Text fontSize="sm" textAlign="end" color="muted">
-                  {s.duration} secs
-                </Text>
-              ) : (
-                <Text fontSize="sm" textAlign="end" color="muted">
-                  ----
+                  {formatDuration(s.duration)}
                 </Text>
               )}
             </Box>

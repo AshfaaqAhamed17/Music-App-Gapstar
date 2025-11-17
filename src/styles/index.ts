@@ -12,7 +12,7 @@ export const system = createSystem(defaultConfig, {
           400: { value: "#ffa84d" },
           500: { value: "#ff6800" },
           600: { value: "#cc6e14" },
-          700: { value: "#994f0f" },
+          700: { value: "#be4c00" },
           800: { value: "#663409" },
           900: { value: "#331a04" },
         },
@@ -75,6 +75,10 @@ export const system = createSystem(defaultConfig, {
 
         primary: {
           value: { base: "{colors.brand.500}", _dark: "{colors.brand.500}" },
+        },
+
+        chart1: {
+          value: { base: "{colors.brand.300}", _dark: "{colors.brand.700}" },
         },
 
         muted: {

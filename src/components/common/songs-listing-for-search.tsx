@@ -5,10 +5,14 @@ import {
   HStack,
   SimpleGrid,
   Text,
+  useBreakpointValue,
   VStack,
 } from "@chakra-ui/react";
 import { MoreHorizontal, Star } from "lucide-react";
 import { useFavoritesStore } from "@/store/favorites-store";
+import { toaster } from "../../components/ui/toaster";
+import { splitArtists } from "@/utils/text-formatter";
+import { useNavigate } from "react-router-dom";
 
 interface Track {
   name: string;
@@ -27,10 +31,17 @@ export default function SongsListingForSearchComponent({
   tracks,
 }: SongsListingForSearchProps) {
   const { addFavorite, removeFavorite, isFavorite } = useFavoritesStore();
+  const navigate = useNavigate();
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   const handleFavoriteClick = (track: Track) => {
     if (isFavorite(track.name, track.artist)) {
       removeFavorite(track.name, track.artist);
+      toaster.create({
+        title: "Removed from favorites",
+        description: `${track.name} by ${track.artist}`,
+        type: "info",
+      });
     } else {
       addFavorite({
         name: track.name,
@@ -50,6 +61,11 @@ export default function SongsListingForSearchComponent({
         "@attr": {
           rank: 0,
         },
+      });
+      toaster.create({
+        title: "Added to favorites",
+        description: `${track.name} by ${track.artist}`,
+        type: "success",
       });
     }
   };
@@ -89,9 +105,32 @@ export default function SongsListingForSearchComponent({
                 >
                   {s.name}
                 </Text>
-                <Text fontSize="sm" textAlign="start" color="muted" truncate>
-                  {s.artist}
-                </Text>
+                <HStack gap={1} overflow="hidden">
+                  {splitArtists(s.artist).map((artist, index) => (
+                    <HStack key={index} gap={1}>
+                      <Text
+                        key={index}
+                        fontSize="sm"
+                        textAlign="start"
+                        color="muted"
+                        cursor="pointer"
+                        _hover={{ textDecoration: "underline" }}
+                        onClick={(e) => {
+                          {
+                            e.stopPropagation();
+                            navigate(`/artist/${encodeURIComponent(artist)}`);
+                          }
+                        }}
+                        whiteSpace="nowrap"
+                      >
+                        {isMobile && artist.length > 5
+                          ? artist.slice(0, 5) + "..."
+                          : artist}
+                        {index < splitArtists(s.artist).length - 1 && ","}
+                      </Text>
+                    </HStack>
+                  ))}
+                </HStack>
               </VStack>
             </HStack>
 

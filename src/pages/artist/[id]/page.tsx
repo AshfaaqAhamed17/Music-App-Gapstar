@@ -38,7 +38,7 @@ export default function ArtistDetail() {
       <Box w="full" zIndex={1}>
         <VStack align="start" gap={4} w="full">
           <Text fontWeight="bold" fontSize="2xl" textAlign="start">
-            Popular Songs
+            Popular songs
           </Text>
 
           <SongsListingComponent tracks={artistTopTracks.slice(0, 5)} />
