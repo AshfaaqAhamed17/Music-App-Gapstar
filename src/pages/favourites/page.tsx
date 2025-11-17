@@ -1,8 +1,10 @@
 import DetailsHeader from "@/components/common/details-header";
+import { useFavoritesStore } from "@/store/favorites-store";
 import SongsListingComponent from "@/components/common/songs-listing";
 import { Box, VStack } from "@chakra-ui/react";
 
 export default function Favourites() {
+  const { favorites } = useFavoritesStore();
   return (
     <VStack gap={12} align="start">
       <Box
@@ -16,7 +18,7 @@ export default function Favourites() {
       />
 
       <DetailsHeader isFavourites />
-      <SongsListingComponent count={50} />
+      <SongsListingComponent tracks={favorites} />
     </VStack>
   );
 }

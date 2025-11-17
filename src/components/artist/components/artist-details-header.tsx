@@ -1,12 +1,13 @@
+import type { Artist } from "@/types/artist-details";
 import { Avatar, Stack, Text, VStack } from "@chakra-ui/react";
 
-export interface ArtistDetailsHeaderProps {
-  imageUrl: string;
-  albumName: string;
-  artistName: string;
+interface ArtistDetailsHeaderProps {
+  artistInfo: Artist;
 }
 
-export default function ArtistDetailsHeader() {
+export default function ArtistDetailsHeader({
+  artistInfo,
+}: ArtistDetailsHeaderProps) {
   return (
     <Stack
       direction={{ base: "column", md: "row" }}
@@ -15,15 +16,15 @@ export default function ArtistDetailsHeader() {
       zIndex={1}
     >
       <Avatar.Root shape="full" size="lg" boxSize="120px" borderRadius="full">
-        <Avatar.Fallback name="Random User" />
-        <Avatar.Image src="https://picsum.photos/seed/artist1/300/300" />
+        <Avatar.Fallback name={artistInfo.name} />
+        <Avatar.Image src={artistInfo.image?.[0]["#text"]} />
       </Avatar.Root>
       <VStack w="full" gap={1} align="start" px={2}>
         <Text fontWeight="bold" fontSize="4xl" textAlign="start">
-          Artist Name
+          {artistInfo.name}
         </Text>
         <Text fontSize="sm" textAlign="start" color="muted">
-          2600 Plays
+          {artistInfo.stats?.playcount} Plays
         </Text>
       </VStack>
     </Stack>

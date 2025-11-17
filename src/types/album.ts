@@ -1,14 +1,29 @@
 export interface AlbumResponse {
-  artist: string;
-  mbid: string;
-  tags: AlbumTags;
-  playcount: string;
-  image: AlbumImage[];
-  tracks: AlbumTracks;
-  url: string;
   name: string;
-  listeners: string;
-  wiki?: AlbumWiki;
+  mbid: string;
+  url: string;
+  artist: {
+    name: string;
+    mbid: string;
+    url: string;
+  };
+  image: AlbumImage[];
+  "@attr": {
+    rank: string;
+  };
+}
+
+export interface AlbumsApiResponse {
+  albums: {
+    album: AlbumResponse[];
+    "@attr": {
+      tag: string;
+      page: string;
+      perPage: string;
+      totalPages: string;
+      total: string;
+    };
+  };
 }
 
 export interface AlbumTags {
@@ -34,12 +49,14 @@ export interface AlbumTrack {
     fulltrack: string;
     "#text": string;
   };
+  image?: { "#text": string; size: string }[];
   duration: number;
   url: string;
   name: string;
   "@attr": {
     rank: number;
   };
+  playcount?: string;
   artist: {
     url: string;
     name: string;
@@ -51,4 +68,19 @@ export interface AlbumWiki {
   published: string;
   summary: string;
   content: string;
+}
+
+export interface AlbumDetailsResponse {
+  album: {
+    name: string;
+    artist: string;
+    mbid: string;
+    url: string;
+    image: AlbumImage[];
+    listeners: string;
+    playcount: string;
+    tracks: AlbumTracks;
+    tags: AlbumTags;
+    wiki?: AlbumWiki;
+  };
 }

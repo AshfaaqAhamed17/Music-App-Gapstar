@@ -191,9 +191,9 @@ export default function Layout({
                   p={0}
                   boxSize="48px"
                 >
-                  <Avatar.Root shape="full" boxSize="40px">
+                  <Avatar.Root shape="full" boxSize="48px">
                     <Avatar.Fallback name="Random User" />
-                    <Avatar.Image src="https://picsum.photos/seed/artist1/300/300" />
+                    <Avatar.Image src="src/assets/user.jpg" />
                   </Avatar.Root>
                 </Button>
               </Popover.Trigger>
@@ -210,8 +210,8 @@ export default function Layout({
                         borderRadius="lg"
                       >
                         <Avatar.Root shape="full" boxSize="60px">
-                          <Avatar.Fallback name="Random User" />
-                          <Avatar.Image src="https://picsum.photos/seed/artist1/300/300" />
+                          <Avatar.Fallback name="Ashfaaq Ahamed" />
+                          <Avatar.Image src="src/assets/user.jpg" />
                         </Avatar.Root>
                         <VStack align="center" gap={2}>
                           <Text fontWeight="semibold" fontSize="md">

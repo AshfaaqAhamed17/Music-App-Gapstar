@@ -1,8 +1,9 @@
+import type { AlbumImage } from "@/types/album";
 import { Avatar, VStack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 export interface AlbumTileProps {
-  imageUrl: string;
+  imageUrl: AlbumImage[];
   albumName: string;
   artistName: string;
 }
@@ -14,13 +15,29 @@ export default function AlbumTile({
 }: AlbumTileProps) {
   const navigate = useNavigate();
 
+  const selectCover = (imageArr?: AlbumImage[]) => {
+    if (!imageArr?.length) return undefined;
+    // prefer extralarge -> large -> medium -> small
+    const pref = ["extralarge", "large", "medium", "small"];
+    for (const size of pref) {
+      const item = imageArr.find((i) => i.size === size && i["#text"]);
+      if (item && item["#text"]) return item["#text"];
+    }
+    // fallback to first non-empty
+    return imageArr.find((i) => i["#text"])?.["#text"];
+  };
+
   return (
     <VStack
       align="center"
       gap={4}
       cursor="pointer"
       onClick={() => {
-        navigate(`/album/${encodeURIComponent(artistName)}`);
+        navigate(
+          `/album/${encodeURIComponent(artistName)}/${encodeURIComponent(
+            albumName
+          )}`
+        );
       }}
     >
       <Avatar.Root
@@ -31,7 +48,7 @@ export default function AlbumTile({
         h="225px"
       >
         <Avatar.Fallback name="Random User" />
-        <Avatar.Image src={imageUrl} />
+        <Avatar.Image src={selectCover(imageUrl)} />
       </Avatar.Root>
       <VStack w="full" gap={1} align="start" px={2}>
         <Text fontSize="md" textAlign="start">

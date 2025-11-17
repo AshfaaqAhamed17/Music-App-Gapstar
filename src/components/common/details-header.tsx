@@ -1,19 +1,40 @@
+import type { AlbumDetailsResponse } from "@/types/album";
 import { Avatar, Button, HStack, Stack, Text, VStack } from "@chakra-ui/react";
 import { Play } from "lucide-react";
 
 export default function DetailsHeader({
+  selectedAlbum,
   isFavourites = false,
 }: {
+  selectedAlbum?: AlbumDetailsResponse["album"] | null;
   isFavourites?: boolean;
 }) {
   const metaItems = isFavourites
     ? ["Created by me", "50 tracks", "200 mins", "Created on 2023"]
-    : ["Artist Name", "05 tracks", "120 mins", "Released 2023"];
+    : [
+        selectedAlbum?.artist || "Artist Name",
+        `${selectedAlbum?.tracks?.track?.length || 0} tracks`,
+        "120 mins",
+        "Released 2023",
+      ];
+
+  const selectCover = () => {
+    if (!selectedAlbum) return "src/assets/user.jpg";
+
+    if (!selectedAlbum?.image?.length) return undefined;
+    const pref = ["extralarge", "mega", "large", "medium", "small"];
+    for (const size of pref) {
+      const item = selectedAlbum.image.find(
+        (i) => i.size === size && i["#text"]
+      );
+      if (item && item["#text"]) return item["#text"];
+    }
+    return selectedAlbum.image.find((i) => i["#text"])?.["#text"];
+  };
 
   return (
-    // <HStack align="center" gap={4}>
     <Stack
-      direction={{ base: "column", md: "row" }} // mobile → column, desktop → row
+      direction={{ base: "column", md: "row" }}
       align={{ base: "start", md: "center" }}
       gap={4}
       w="full"
@@ -25,12 +46,12 @@ export default function DetailsHeader({
         borderRadius="full"
       >
         <Avatar.Fallback name="Random User" />
-        <Avatar.Image src="https://picsum.photos/seed/artist1/300/300" />
+        <Avatar.Image src={selectCover()} />
       </Avatar.Root>
 
       <VStack w="full" gap={1} align="start" px={{ base: 0, md: 2 }}>
         <Text fontWeight="bold" fontSize="4xl">
-          {isFavourites ? "My Favourites" : "Album Name"}
+          {isFavourites ? "My Favourites" : selectedAlbum?.name || "Album Name"}
         </Text>
 
         {/* Better metadata renderer */}
