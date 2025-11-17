@@ -1,21 +1,43 @@
+import { useEffect } from "react";
 import AlbumListingComponent from "../../components/common/album-listing";
-import { Box, Heading, VStack } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
+import { useAlbumStore } from "@/store/album-store";
+import Loader from "@/components/common/loader";
 
 export default function Album() {
+  const {
+    allAlbums,
+    mostPopularAlbum: mostPopular,
+    fetchAlbums,
+    isLoading,
+  } = useAlbumStore();
+
+  useEffect(() => {
+    fetchAlbums();
+  }, [fetchAlbums]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
-    <VStack gap={12}>
-      <Box py={2} w="full">
-        <Heading size="xl" mb={8}>
+    <VStack align="start" gap={16}>
+      <VStack w="full" gap={6} alignItems="start">
+        <Text fontWeight="bold" fontSize="2xl" textAlign="start">
           Most popular
-        </Heading>
-        <AlbumListingComponent count={5} />
-      </Box>
-      <Box py={2} w="full">
-        <Heading size="xl" mb={8}>
+        </Text>
+        <Box py={2} w="full">
+          <AlbumListingComponent albums={mostPopular} />
+        </Box>
+      </VStack>
+      <VStack w="full" gap={6} alignItems="start">
+        <Text fontWeight="bold" fontSize="2xl" alignContent="start">
           Recently Added
-        </Heading>
-        <AlbumListingComponent count={25} />
-      </Box>
+        </Text>
+        <Box py={2} w="full">
+          <AlbumListingComponent albums={allAlbums} />
+        </Box>
+      </VStack>
     </VStack>
   );
 }

@@ -1,8 +1,18 @@
 import AlbumListingComponent from "../../common/album-listing";
 import { Tabs } from "@chakra-ui/react";
+import Loader from "../../../components/common/loader";
+import { useArtistStore } from "@/store/artist-store";
 import SongsListingComponent from "../../common/songs-listing";
 
 export default function ArtistDetailsTabSection() {
+  const artistTopAlbums = useArtistStore((s) => s.artistTopAlbums);
+  const isArtistLoading = useArtistStore((s) => s.isArtistLoading);
+  const artistTopTracks = useArtistStore((s) => s.artistTopTracks);
+
+  if (isArtistLoading) {
+    return <Loader />;
+  }
+
   return (
     <Tabs.Root
       w="full"
@@ -25,7 +35,7 @@ export default function ArtistDetailsTabSection() {
             fontWeight: "bold",
           }}
         >
-          Popular Albums
+          Popular albums
         </Tabs.Trigger>
         <Tabs.Trigger
           value="allAlbums"
@@ -36,7 +46,7 @@ export default function ArtistDetailsTabSection() {
             fontWeight: "bold",
           }}
         >
-          All Albums
+          All albums
         </Tabs.Trigger>
         <Tabs.Trigger
           value="allSongs"
@@ -47,20 +57,21 @@ export default function ArtistDetailsTabSection() {
             fontWeight: "bold",
           }}
         >
-          All Songs
+          All songs
         </Tabs.Trigger>
         <Tabs.Indicator />
       </Tabs.List>
       <Tabs.Content value="popularAlbums">
-        <AlbumListingComponent count={5} />
+        {/* <AlbumListingComponent albums={} /> */}
+        <AlbumListingComponent albums={artistTopAlbums.slice(0, 5)} />
       </Tabs.Content>
 
       <Tabs.Content value="allAlbums">
-        <AlbumListingComponent count={35} />
+        <AlbumListingComponent albums={artistTopAlbums.reverse()} />
       </Tabs.Content>
 
       <Tabs.Content value="allSongs">
-        <SongsListingComponent count={10} />
+        <SongsListingComponent tracks={artistTopTracks} />
       </Tabs.Content>
     </Tabs.Root>
   );

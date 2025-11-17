@@ -55,7 +55,7 @@ const router = createBrowserRouter([
         element: <AllAlbums />,
       },
       {
-        path: "album/:name",
+        path: "album/:name/:album",
         element: <AlbumDetail />,
       },
       {

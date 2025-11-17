@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { system } from "./styles";
 import App from "./App";
 import { ColorModeProvider } from "./components/ui/color-mode";
+import { Toaster } from "./components/ui/toaster";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,6 +23,7 @@ createRoot(document.getElementById("root")!).render(
     <ChakraProvider value={system}>
       <ColorModeProvider defaultTheme="dark" />
       <QueryClientProvider client={queryClient}>
+        <Toaster />
         <App />
       </QueryClientProvider>
     </ChakraProvider>

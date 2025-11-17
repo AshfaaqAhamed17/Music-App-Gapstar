@@ -1,8 +1,9 @@
+import type { ArtistImage } from "@/types/artist";
 import { Avatar, VStack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 export interface ArtistTileProps {
-  imageUrl: string;
+  imageUrl: ArtistImage[];
   artistName: string;
 }
 
@@ -19,8 +20,10 @@ export default function ArtistTile({ imageUrl, artistName }: ArtistTileProps) {
       }}
     >
       <Avatar.Root shape="full" size="lg" boxSize="120px" borderRadius="full">
-        <Avatar.Fallback name="Random User" />
-        <Avatar.Image src={imageUrl} />
+        <Avatar.Fallback name={artistName} />
+        <Avatar.Image
+          src={imageUrl.find((img) => img.size === "medium")?.["#text"]}
+        />
       </Avatar.Root>
       <Text fontSize="sm" textAlign="center">
         {artistName}
