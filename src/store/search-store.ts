@@ -2,18 +2,11 @@ import { create } from "zustand";
 import { searchService } from "../services/search-service";
 import type { Artist } from "@/types/artist";
 import type { AlbumResponse } from "@/types/album";
-
-interface Track {
-  name: string;
-  artist: string;
-  url: string;
-  listeners: string;
-  mbid: string;
-}
+import type { TopTracksResponse } from "@/types/artist-details";
 
 interface SearchState {
   query: string;
-  tracks: Track[];
+  tracks: TopTracksResponse["toptracks"]["track"];
   artists: Artist[];
   albums: AlbumResponse[];
   loading: boolean;

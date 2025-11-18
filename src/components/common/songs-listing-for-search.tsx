@@ -9,73 +9,31 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { MoreHorizontal, Star } from "lucide-react";
-import { useFavoritesStore } from "@/store/favorites-store";
-import { toaster } from "../../lib/toaster";
+import { useFavoriteHandler } from "@/hooks/use-favorite-handler";
 import { splitArtists } from "@/utils/text-formatter";
 import { useNavigate } from "react-router-dom";
+import type { TopTracksResponse } from "@/types/artist-details";
 
-interface Track {
-  name: string;
-  artist: string;
-  url: string;
-  listeners: string;
-  mbid: string;
-  image?: Array<{ "#text": string; size: string }>;
-}
 
 interface SongsListingForSearchProps {
-  tracks: Track[];
+  tracks: TopTracksResponse["toptracks"]["track"];
 }
 
 export default function SongsListingForSearchComponent({
   tracks,
 }: SongsListingForSearchProps) {
-  const { addFavorite, removeFavorite, isFavorite } = useFavoritesStore();
+  const { handleFavoriteClick, isFavorite } = useFavoriteHandler();
   const navigate = useNavigate();
   const isMobile = useBreakpointValue({ base: true, md: false });
-
-  const handleFavoriteClick = (track: Track) => {
-    if (isFavorite(track.name, track.artist)) {
-      removeFavorite(track.name, track.artist);
-      toaster.create({
-        title: "Removed from favorites",
-        type: "info",
-      });
-    } else {
-      addFavorite({
-        name: track.name,
-        artist: {
-          name: track.artist,
-          mbid: "",
-          url: "",
-        },
-        url: track.url,
-        image: track.image || [],
-        duration: "",
-        playcount: "",
-        streamable: {
-          fulltrack: "",
-          "#text": "",
-        },
-        "@attr": {
-          rank: 0,
-        },
-      });
-      toaster.create({
-        title: "Added to favorites",
-        type: "success",
-      });
-    }
-  };
 
   return (
     <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gapX={10}>
       {tracks.map((s, idx) => {
-        const favorite = isFavorite(s.name, s.artist);
+        const favorite = isFavorite(s.name, s.artist.name);
 
         return (
           <HStack
-            key={`${s.mbid || s.name}-${idx}`}
+            key={idx}
             align="center"
             gap={4}
             w="full"
@@ -90,7 +48,7 @@ export default function SongsListingForSearchComponent({
                 boxSize="44px"
                 borderRadius="full"
               >
-                <Avatar.Fallback name={s.artist} />
+                <Avatar.Fallback name={s.artist.name} />
                 <Avatar.Image src={s.image?.[2]?.["#text"]} />
               </Avatar.Root>
 
@@ -104,7 +62,7 @@ export default function SongsListingForSearchComponent({
                   {s.name}
                 </Text>
                 <HStack gap={1} overflow="hidden">
-                  {splitArtists(s.artist).map((artist, index) => (
+                  {splitArtists(s.artist.name).map((artist, index) => (
                     <HStack key={index} gap={1}>
                       <Text
                         key={index}
@@ -124,7 +82,7 @@ export default function SongsListingForSearchComponent({
                         {isMobile && artist.length > 5
                           ? artist.slice(0, 5) + "..."
                           : artist}
-                        {index < splitArtists(s.artist).length - 1 && ","}
+                        {index < splitArtists(s.artist.name).length - 1 && ","}
                       </Text>
                     </HStack>
                   ))}

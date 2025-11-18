@@ -49,7 +49,11 @@ describe("SongsListingForSearchComponent", () => {
   const mockTracks = [
     {
       name: "Search Track 1",
-      artist: "Search Artist 1",
+      artist: {
+        name: "Search Artist 1",
+        mbid: "",
+        url: "",
+      },
       url: "https://example.com/track1",
       listeners: "100000",
       mbid: "track-1",
@@ -58,14 +62,36 @@ describe("SongsListingForSearchComponent", () => {
         { "#text": "https://example.com/img1-med.jpg", size: "medium" },
         { "#text": "https://example.com/img1-large.jpg", size: "large" },
       ],
+      duration: "",
+      playcount: "",
+      streamable: {
+        fulltrack: "",
+        "#text": "",
+      },
+      "@attr": {
+        rank: 0,
+      },
     },
     {
       name: "Search Track 2",
-      artist: "Search Artist 2",
+      artist: {
+        name: "Search Artist 2",
+        mbid: "",
+        url: "",
+      },
       url: "https://example.com/track2",
       listeners: "50000",
       mbid: "track-2",
       image: [],
+      duration: "",
+      playcount: "",
+      streamable: {
+        fulltrack: "",
+        "#text": "",
+      },
+      "@attr": {
+        rank: 0,
+      },
     },
   ];
 

@@ -1,12 +1,12 @@
-import AlbumTile from "@/components/common/album-tile";
-import TopTracks from "../components/home/top-tracks";
+import AlbumTile from "../../components/common/album-tile";
+import TopTracks from "../../components/home/top-tracks";
 import { VStack, Box, Text, Stack } from "@chakra-ui/react";
-import { useAlbumStore } from "@/store/album-store";
+import { useAlbumStore } from "../../store/album-store";
 import { useEffect } from "react";
-import AlbumListingComponent from "@/components/common/album-listing";
-import Loader from "@/components/common/loader";
-import ArtistListingComponent from "@/components/common/artist-listing";
-import { useArtistStore } from "@/store/artist-store";
+import AlbumListingComponent from "../../components/common/album-listing";
+import Loader from "../../components/common/loader";
+import ArtistListingComponent from "../../components/common/artist-listing";
+import { useArtistStore } from "../../store/artist-store";
 
 export default function Home() {
   const { mostPopularAlbum, fetchAlbums, isLoading } = useAlbumStore();

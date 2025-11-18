@@ -10,14 +10,13 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { MoreHorizontal, Star } from "lucide-react";
-import { useFavoritesStore } from "@/store/favorites-store";
+import { useFavoriteHandler } from "@/hooks/use-favorite-handler";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   formatDuration,
   formatNumber,
   splitArtists,
 } from "@/utils/text-formatter";
-import { toaster } from "../../lib/toaster";
 import { useState, useMemo } from "react";
 
 interface SongsListingComponentProps {
@@ -27,7 +26,7 @@ interface SongsListingComponentProps {
 export default function SongsListingComponent({
   tracks,
 }: SongsListingComponentProps) {
-  const { addFavorite, removeFavorite, isFavorite } = useFavoritesStore();
+  const { handleFavoriteClick, isFavorite } = useFavoriteHandler();
   const location = useLocation();
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState<"latest" | "name">("latest");
@@ -42,36 +41,6 @@ export default function SongsListingComponent({
     }
     return tracks;
   }, [tracks, sortBy]);
-
-  const handleFavoriteClick = (track: (typeof tracks)[0]) => {
-    if (isFavorite(track.name, track.artist.name)) {
-      removeFavorite(track.name, track.artist.name);
-      toaster.create({
-        title: "Removed from favorites",
-        type: "info",
-      });
-    } else {
-      addFavorite({
-        name: track.name,
-        artist: track.artist,
-        url: track.url,
-        image: track.image,
-        duration: track.duration,
-        playcount: track.playcount,
-        streamable: {
-          fulltrack: "",
-          "#text": "",
-        },
-        "@attr": {
-          rank: 0,
-        },
-      });
-      toaster.create({
-        title: "Added to favorites",
-        type: "success",
-      });
-    }
-  };
 
   return (
     <VStack gap={2} w="full" align="stretch">

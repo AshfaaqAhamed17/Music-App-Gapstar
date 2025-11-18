@@ -1,10 +1,11 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import { Spinner, Center } from "@chakra-ui/react";
 import Layout from "../components/root-layout.tsx";
+import Loader from "../components/common/loader.tsx";
 
-// Lazy load pages
-const Home = lazy(() => import("../pages/home.tsx"));
+const Home = lazy(() => import("../pages/home/page.tsx"));
+const Favourites = lazy(() => import("../pages/favourites/page.tsx"));
+const SearchPage = lazy(() => import("../pages/search/page.tsx"));
 
 const AllArtists = lazy(() => import("../pages/artist/page.tsx"));
 const ArtistDetail = lazy(() => import("../pages/artist/[id]/page.tsx"));
@@ -12,15 +13,8 @@ const ArtistDetail = lazy(() => import("../pages/artist/[id]/page.tsx"));
 const AllAlbums = lazy(() => import("../pages/album/page.tsx"));
 const AlbumDetail = lazy(() => import("../pages/album/[id]/page.tsx"));
 
-const Favourites = lazy(() => import("../pages/favourites/page.tsx"));
-const SearchPage = lazy(() => import("../pages/search.tsx"));
-
 function LoadingFallback() {
-  return (
-    <Center h="50vh">
-      <Spinner size="xl" color="brand.500" />
-    </Center>
-  );
+  return <Loader />;
 }
 
 function Root() {
