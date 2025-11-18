@@ -17,5 +17,15 @@ export default defineConfig({
   build: {
     assetsInlineLimit: 4096,
     assetsDir: "assets",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "react-vendor": ["react", "react-dom", "react-router-dom"],
+          "chakra-ui": ["@chakra-ui/react"],
+          "testing": ["vitest", "@testing-library/react", "@testing-library/jest-dom"],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000, // Increase limit to 1000 kB if needed
   },
 });
